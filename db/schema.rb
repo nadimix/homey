@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_171821) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_12_211429) do
   create_table "history_entries", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "project_id", null: false
@@ -23,7 +23,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_171821) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string "title"
     t.integer "status", default: 0
     t.integer "client_id", null: false
     t.integer "agent_id"
@@ -35,6 +34,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_171821) do
     t.index ["vendor_id"], name: "index_projects_on_vendor_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.integer "role"
     t.string "email"
@@ -42,6 +50,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_171821) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -50,4 +59,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_171821) do
   add_foreign_key "projects", "users", column: "agent_id"
   add_foreign_key "projects", "users", column: "client_id"
   add_foreign_key "projects", "users", column: "vendor_id"
+  add_foreign_key "sessions", "users"
 end

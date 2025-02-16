@@ -27,7 +27,7 @@
 
       <%= button_to projects_path,
         method: :post,
-        client_id: @project.client.id,
+        params: { client_id: @project.client.id },
         class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition duration-150 ease-in-out" do %>
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14"/>
@@ -38,23 +38,10 @@
     </div>
   </div>
 
-  <div class="space-y-4">
+  <%= turbo_stream_from @project, "history_entries" %>
+  <div id="history_entries">
     <% @history_entries.each do |entry| %>
-      <div class="bg-white rounded-lg p-4 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
-        <% if entry.status_change? %>
-          <%= render(StatusCardComponent.new(
-            user: entry.user,
-            body: entry.body,
-            created_at: entry.created_at,
-          )) %>
-        <% else %>
-          <%= render(CommentCardComponent.new(
-            user: entry.user,
-            body: entry.body,
-            created_at: entry.created_at,
-          )) %>
-        <% end %>
-      </div>
+      <%= render(HistoryEntryComponent.new(entry: entry)) %>
     <% end %>
   </div>
 </div>

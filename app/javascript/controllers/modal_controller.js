@@ -2,11 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="modal"
 export default class extends Controller {
-  static targets = ["dialog"]
+  static targets = ["dialog", "text"]
 
   open() {
     this.dialogTarget.classList.remove("hidden")
     this.dialogTarget.classList.add("animate-fade-in-up")
+    this.textTarget.value = ""
     // Prevent scrolling on the body when modal is open
     document.body.style.overflow = "hidden"
   }

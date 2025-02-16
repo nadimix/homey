@@ -9,7 +9,6 @@ class ProjectsController < ApplicationController
     # To keep it simple we are not including pagination here.
     # To prevent N+1 queries, we include the user in the history entries.
     @history_entries = @project.history_entries.includes(:user).order(created_at: :asc)
-    # TODO: Rework to only show options depending on the current user's role and the project's status
     @statuses = Project.statuses.keys
   end
 

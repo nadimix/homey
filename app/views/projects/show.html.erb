@@ -18,13 +18,17 @@
         form_path: create_comment_project_path(@project),
       )) %>
 
-      <!-- Status Dropdown -->
-      <%= render(DropdownComponent.new(
-        trigger_text: "Change Status",
-        options: @statuses,
-        form_path: update_status_project_path(@project),
-      )) %>
-
+      <div>
+        <!-- Status Dropdown -->
+        <%= turbo_stream_from @project, "status_dropdown" %>
+        <div id="status_dropdown">
+          <%= render(DropdownComponent.new(
+            trigger_text: "Change Status",
+            options: @statuses,
+            form_path: update_status_project_path(@project),
+          )) %>
+        </div>
+      </div>
       <%= button_to projects_path,
         method: :post,
         params: { client_id: @project.client.id },

@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     # To keep it simple we are not including pagination here.
     # To prevent N+1 queries, we include the user in the history entries.
     @history_entries = @project.history_entries.includes(:user).order(created_at: :asc)
-    @statuses = Project.statuses.keys
+    @statuses = @project.avaliable_statuses
   end
 
   def create
@@ -25,15 +25,19 @@ class ProjectsController < ApplicationController
   end
 
   def update_status
-    @project.update(status: params[:option])
-    new_entry = @project.history_entries.status_change.new(
-      body: params[:option],
-      user: Current.user
-    )
+    if @project.update(status: params[:option])
+      new_entry = @project.history_entries.status_change.new(
+        body: params[:option],
+        user: Current.user
+      )
 
-    if new_entry.save
-      flash[:notice] = "Project status updated successfully."
-      render json: {}, status: :no_content
+      if new_entry.save
+        flash[:notice] = "Project status updated successfully."
+        render json: {}, status: :no_content
+      else
+        flash[:alert] = "There was an error updating the project. Please try again."
+        redirect_back(fallback_location: root_path)
+      end
     else
       flash[:alert] = "There was an error updating the project. Please try again."
       redirect_back(fallback_location: root_path)

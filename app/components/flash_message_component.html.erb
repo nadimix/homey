@@ -1,0 +1,9 @@
+<div data-controller="flash">
+  <div data-flash-target="banner" id="flash" tabindex="-1" class="fixed top-0 start-0 z-50 flex justify-between w-full p-4  <%= @type == 'notice' ? 'bg-teal-500' : 'bg-rose-500' %>">
+    <div class="flex items-center mx-auto">
+      <p class="flex items-center text-sm font-normal text-white">
+        <span><%= @body %></span>
+      </p>
+    </div>
+  </div>
+</div>

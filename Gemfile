@@ -15,7 +15,6 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
@@ -66,3 +65,5 @@ gem "factory_bot_rails", "~> 6.4"
 gem "faker", "~> 3.5"
 
 gem "view_component", "~> 3.21"
+
+gem "tailwindcss-rails", "~> 4.0"

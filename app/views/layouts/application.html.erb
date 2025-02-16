@@ -23,6 +23,10 @@
   </head>
 
   <body>
+    <% if notice.present? || alert.present? %>
+      <%= render(FlashMessageComponent.new(body: notice || alert, type: notice.present? ? 'notice' : 'alert')) %>
+    <% end %>
+
     <main class="flex flex-1 mx-auto">
       <%= yield %>
     </main>

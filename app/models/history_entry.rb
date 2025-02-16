@@ -5,6 +5,7 @@ class HistoryEntry < ApplicationRecord
   enum :entry_type, { status_change: 0, comment: 1 }
 
   validates :body, :entry_type, presence: true
+  validates :body, length: { maximum: 255 }
 
   after_create :broadcast_entry
 

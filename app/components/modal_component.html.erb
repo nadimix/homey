@@ -21,7 +21,9 @@
                   <%= f.text_area :body, 
                     id: "comment_body",
                     data: { modal_target: "text"},
-                    class: "min-h-[100px] w-full rounded-md border border-indigo-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500", 
+                    rows: 4,
+                    maxlength: 255,
+                    class: "min-h-[100px] w-full rounded-md border border-indigo-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-4", 
                     placeholder: @placeholder_text %>
                   
                   <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">

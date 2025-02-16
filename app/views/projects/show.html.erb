@@ -1,40 +1,58 @@
 <div class="max-w-3xl mx-auto bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl shadow-lg my-12">
-  <div class="mb-6 flex items-center justify-between">
-    <h2 class="text-2xl font-bold text-indigo-800">Project Conversation History</h2>
-    <div class="flex gap-3">
-      <p class="font-semibold text-indigo-800 text-lg">
-        <%= Current.user.full_name %>
-      </p>
+  <div class="mb-6 flex flex-col">
+    <div class="flex flex-1 justify-between mb-7 items-center">
+      <h2 class="text-2xl font-bold text-indigo-800">Activity</h2>
+      <div class="flex gap-3">
+        <p class="font-semibold text-indigo-800 text-lg">
+          <%= Current.user.full_name %>
+        </p>
+      </div>
+    </div>
+    <div class="flex gap-3 justify-between">
+      <!-- Comment Modal Trigger -->
+      <%= render(ModalComponent.new(
+        trigger_text: "Add Comment",
+        title: "Add Comment",
+        placeholder_text: "Type your comment here...",
+        cancel_text: "Cancel",
+        form_path: create_comment_project_path(@project),
+      )) %>
+
+      <!-- Status Dropdown -->
+      <%= render(DropdownComponent.new(
+        trigger_text: "Change Status",
+        options: @statuses,
+        form_path: update_status_project_path(@project),
+      )) %>
+
+      <%= button_to projects_path,
+        method: :post,
+        client_id: @project.client.id,
+        class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition duration-150 ease-in-out" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14"/>
+          <path d="M5 12h14"/>
+        </svg>
+        New Project
+      <% end %>
     </div>
   </div>
 
   <div class="space-y-4">
-    <% @history_entries.each_with_index do |entry, index| %>
+    <% @history_entries.each do |entry| %>
       <div class="bg-white rounded-lg p-4 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
         <% if entry.status_change? %>
-          <div class="flex items-center space-x-2 text-sm text-indigo-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
-            </svg>
-            <span class="font-semibold">Status changed to</span>
-            <span class="font-bold text-indigo-600">
-              <%= entry.body.humanize %>
-            </span> 
-            <span>by <%= entry.user.full_name %></span>
-            <span class="text-xs text-indigo-400">
-              <%= entry.created_at.strftime("%b %d, %Y - %I:%M %p") %>
-            </span>
-          </div>
+          <%= render(StatusCardComponent.new(
+            user: entry.user,
+            body: entry.body,
+            created_at: entry.created_at,
+          )) %>
         <% else %>
-          <div class="flex items-start space-x-3">
-            <div class="flex-1">
-              <p class="font-semibold text-indigo-800"><%= entry.user.full_name %></p>
-              <p class="text-sm text-gray-600 mt-1"><%= entry.body %></p>
-              <p class="mt-2 text-xs text-indigo-400">
-                <%= entry.created_at.strftime("%b %d, %Y - %I:%M %p") %>
-              </p>
-            </div>
-          </div>
+          <%= render(CommentCardComponent.new(
+            user: entry.user,
+            body: entry.body,
+            created_at: entry.created_at,
+          )) %>
         <% end %>
       </div>
     <% end %>

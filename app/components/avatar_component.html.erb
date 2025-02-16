@@ -1,0 +1,5 @@
+<% size_class = @size == 'lg' ? "size-10 text-sm font-medium" : "size-8 text-xsfont-light" %>
+<div class="<%= size_class %> rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white shadow-inner">
+  <%= @user.initials %>
+</div>
+

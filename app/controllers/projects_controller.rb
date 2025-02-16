@@ -16,7 +16,6 @@ class ProjectsController < ApplicationController
     # To keep it simple by now, we keep using the same client on all projects
     @project = Project.new(client: @client)
     if @project.save
-      flash[:notice] = "Project created successfully."
       redirect_to @project
     else
       flash[:alert] = "There was an error creating the project. Please try again."
@@ -25,19 +24,13 @@ class ProjectsController < ApplicationController
   end
 
   def update_status
-    if @project.update(status: params[:option])
-      new_entry = @project.history_entries.status_change.new(
-        body: params[:option],
-        user: Current.user
-      )
+    new_entry = @project.history_entries.status_change.new(
+      body: params[:option],
+      user: Current.user
+    )
 
-      if new_entry.save
-        flash[:notice] = "Project status updated successfully."
-        render json: {}, status: :no_content
-      else
-        flash[:alert] = "There was an error updating the project. Please try again."
-        redirect_back(fallback_location: root_path)
-      end
+    if @project.update(status: params[:option]) && new_entry.save
+      render json: {}, status: :no_content
     else
       flash[:alert] = "There was an error updating the project. Please try again."
       redirect_back(fallback_location: root_path)
@@ -51,7 +44,6 @@ class ProjectsController < ApplicationController
     )
 
     if new_entry.save
-      flash[:notice] = "Comment added successfully."
       render json: {}, status: :no_content
     else
       flash[:alert] = "There was an error updating the project. Please try again."

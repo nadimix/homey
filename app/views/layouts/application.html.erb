@@ -24,7 +24,7 @@
 
   <body>
     <% if notice.present? || alert.present? %>
-      <%= render(FlashMessageComponent.new(body: notice || alert, type: notice.present? ? 'notice' : 'alert')) %>
+      <%= render(FlashMessageComponent.new(body: alert)) %>
     <% end %>
 
     <main class="flex flex-1 mx-auto">

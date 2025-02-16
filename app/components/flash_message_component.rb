@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class FlashMessageComponent < ViewComponent::Base
-  def initialize(type:, body:)
-    @type = type
+  # @param [String] body
+  def initialize(body:)
     @body = body
   end
 end

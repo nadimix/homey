@@ -5,6 +5,9 @@ Welcome to the Homey Project Conversation History task. This is a simple Rails 8
 
 The conversation history updates in real-time using Hotwire and ActionCable. You can log in and test the application using pre-seeded users from different incognito sessions in your browser to observe real-time updates.
 
+<img width="775" alt="Captura de pantalla 2025-02-17 a las 17 18 07" src="https://github.com/user-attachments/assets/9c9bd375-78b3-4e25-8d02-2613d98d88ec" />
+
+
 ## Pre-Seeded Users
 The project includes four pre-seeded users with different roles for testing purposes:
 

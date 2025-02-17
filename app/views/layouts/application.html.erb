@@ -23,7 +23,11 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <% if notice.present? || alert.present? %>
+      <%= render(FlashMessageComponent.new(body: alert)) %>
+    <% end %>
+
+    <main class="flex flex-1 mx-auto">
       <%= yield %>
     </main>
   </body>

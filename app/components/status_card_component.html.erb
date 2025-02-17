@@ -1,0 +1,11 @@
+<div class="flex items-center space-x-2 text-sm text-indigo-800">
+  <%= render(AvatarComponent.new(user: @user, size: 'sm')) %>
+  <span class="font-semibold"><%= @user.first_name.capitalize %></span>
+  <span class="font-light text-gray-600">changed status to </span>
+  <span class="font-bold text-indigo-600">
+    <%= @body.titleize %>
+  </span> 
+  <span class="text-xs text-indigo-400">
+    <%= @created_at.strftime("%b %d, %Y - %I:%M %p") %>
+  </span>
+</div>

@@ -1,0 +1,51 @@
+<div class="max-w-3xl mx-auto bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl shadow-lg my-12">
+  <div class="mb-6 flex flex-col">
+    <div class="flex flex-1 justify-between mb-7 items-center">
+      <h2 class="text-2xl font-bold text-indigo-800">Activity</h2>
+      <div class="flex gap-3">
+        <p class="font-semibold text-indigo-800 text-lg">
+          <%= Current.user.full_name %>
+        </p>
+      </div>
+    </div>
+    <div class="flex gap-3 justify-between">
+      <!-- Comment Modal Trigger -->
+      <%= render(ModalComponent.new(
+        trigger_text: "Add Comment",
+        title: "Add Comment",
+        placeholder_text: "Type your comment here...",
+        cancel_text: "Cancel",
+        form_path: create_comment_project_path(@project),
+      )) %>
+
+      <div>
+        <!-- Status Dropdown -->
+        <%= turbo_stream_from @project, "status_dropdown" %>
+        <div id="status_dropdown">
+          <%= render(DropdownComponent.new(
+            trigger_text: "Change Status",
+            options: @statuses,
+            form_path: update_status_project_path(@project),
+          )) %>
+        </div>
+      </div>
+      <%= button_to projects_path,
+        method: :post,
+        params: { client_id: @project.client.id },
+        class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition duration-150 ease-in-out" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14"/>
+          <path d="M5 12h14"/>
+        </svg>
+        New Project
+      <% end %>
+    </div>
+  </div>
+
+  <%= turbo_stream_from @project, "history_entries" %>
+  <div id="history_entries">
+    <% @history_entries.each do |entry| %>
+      <%= render(HistoryEntryComponent.new(entry: entry)) %>
+    <% end %>
+  </div>
+</div>

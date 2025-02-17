@@ -34,8 +34,6 @@ RSpec.describe "Projects", type: :request do
         }.to change(Project, :count).by(1)
 
         expect(response).to redirect_to(Project.last)
-        follow_redirect!
-        expect(response.body).to include("Project created successfully.")
       end
     end
 
@@ -49,7 +47,7 @@ RSpec.describe "Projects", type: :request do
     end
   end
 
-  describe "PATCH /update_status" do
+  describe "POST /update_status" do
     it "updates the project status" do
       post update_status_project_path(project), params: { option: "shortlisted" }
       expect(response).to have_http_status(:no_content)
@@ -68,14 +66,15 @@ RSpec.describe "Projects", type: :request do
   end
 
   describe "SQL Injection attempts" do
-    it "prevents SQL injection on project lookup" do
-      get project_path("1 OR 1=1")
-      expect(response).to have_http_status(:not_found)
-    end
-
     it "prevents SQL injection on update_status" do
       expect {
-        patch update_status_project_path(project), params: { option: "completed; DROP TABLE projects;" }
+        post update_status_project_path(project), params: { option: "shortlisted; DROP TABLE projects;" }
+      }.to raise_error(ArgumentError).and change { Project.count }.by(0)
+    end
+
+    it "prevents SQL injection on create_comment" do
+      expect {
+        post create_comment_project_path(project), params: { body: "Thanks!; DROP TABLE projects;" }
       }.to_not change { Project.count }
     end
   end

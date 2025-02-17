@@ -81,6 +81,9 @@ A: Yes. The application includes four roles (`admin`, `agent`, `vendor`, and `cl
 ### **Q: Should user permissions be role-based?**
 A: No, all users can view all comments and change the project status.
 
+### **Q: Should we consider screen sizes other than desktop?**
+A: No, let's keep it simple by now.
+
 ## Technical Details
 
 - **Ruby version:** 3.3.5

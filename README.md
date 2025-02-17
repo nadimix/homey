@@ -29,7 +29,7 @@ The project includes four pre-seeded users with different roles for testing purp
 
 *Note: These passwords are for testing only and are not secure.*
 
-## Frequently Asked Questions
+## Questions to colleagues and to myself
 
 ### **Q: Is there a design for this task?**
 A: No, there is no provided design.
